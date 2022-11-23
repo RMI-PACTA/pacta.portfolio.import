@@ -1,0 +1,57 @@
+Package: pacta.portfolio.import
+Title: pacta.portfolio.import
+Version: 0.0.0.9000
+Authors@R: 
+    c(person(given = "CJ",
+             family = "Yetman",
+             role = c("aut", "cre", "ctr"),
+             email = "cj@cjyetman.com",
+             comment = c(ORCID = "0000-0001-5099-9500")),
+      person(given = "Jackson",
+             family = "Hoffart",
+             role = c("aut", "ctr"),
+             email = "jackson.hoffart@gmail.com",
+             comment = c(ORCID = "0000-0002-8600-5042")),
+      person(given = "Jacob",
+             family = "Kastl",
+             role = c("aut", "ctr"),
+             email = "jacob.kastl@gmail.com"),
+      person(given = "Alex",
+             family = "Axthelm",
+             role = c("aut", "ctr"),
+             email = "aaxthelm@rmi.org",
+             comment = c(ORCID = "0000-0001-8579-8565")),
+      person(given = "Rocky Mountain Institute",
+             role = c("cph", "fnd"),
+             email = "PACTA4investors@rmi.org"))
+Description: For more information visit <https://rmi.org/>.
+License: MIT + file LICENSE
+Depends: 
+    R (>= 3.5)
+Imports: 
+    cli,
+    countrycode,
+    dplyr,
+    fs,
+    progress,
+    purrr,
+    readr (>= 2.1.0),
+    stringi,
+    stringr,
+    vctrs,
+    wand
+Suggests: 
+    covr,
+    devtools,
+    lintr,
+    roxygen2,
+    styler,
+    testthat (>= 3.0.0),
+    tibble,
+    withr
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.2
+Config/testthat/edition: 3
+URL: https://github.com/RMI-PACTA/pacta.portfolio.import
+BugReports: https://github.com/RMI-PACTA/pacta.portfolio.import/issues
