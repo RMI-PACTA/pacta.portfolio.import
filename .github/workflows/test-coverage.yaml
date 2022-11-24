@@ -48,11 +48,8 @@ jobs:
               paste0("|Overall|", format(overall_percentage, digits = 4), "%|\n"),
               paste0("|", names(percents), "|", format(percents, digits = 4), "%|", collapse = "\n"), "\n")
           }
-          writeLines(markdown(covr::package_coverage()), "covergae.md")
+          Sys.setenv(GITHUB_STEP_SUMMARY = paste0("COVERAGE_SUMMARY", markdown(covr::package_coverage())))
         shell: Rscript {0}
-
-      - name: Adding markdown summary
-        run: cat coverage.md >> $GITHUB_STEP_SUMMARY
     
       - name: Show testthat output
         if: always()
