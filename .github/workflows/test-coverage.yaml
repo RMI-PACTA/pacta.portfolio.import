@@ -48,11 +48,8 @@ jobs:
               paste0("|Overall|", format(overall_percentage, digits = 4), "%|\n"),
               paste0("|", names(percents), "|", format(percents, digits = 4), "%|", collapse = "\n"), "\n")
           }
-          Sys.setenv(GITHUB_OUTPUT = paste0("COVERAGE_SUMMARY=", markdown(covr::package_coverage())))
+          Sys.setenv(GITHUB_STEP_SUMMARY = markdown(covr::package_coverage()))
         shell: Rscript {0}
-    
-      - name: Adding markdown
-        run: echo '### Hello world! :rocket:\n${{ steps.test-coverage.outputs.COVERAGE_SUMMARY }}' >> $GITHUB_STEP_SUMMARY
         
       - name: Show testthat output
         if: always()
