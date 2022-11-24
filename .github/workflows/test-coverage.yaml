@@ -51,6 +51,9 @@ jobs:
           Sys.setenv(GITHUB_STEP_SUMMARY = paste0("COVERAGE_SUMMARY", markdown(covr::package_coverage())))
         shell: Rscript {0}
     
+      - name: Adding markdown
+        run: echo '### Hello world! :rocket:' >> $GITHUB_STEP_SUMMARY
+        
       - name: Show testthat output
         if: always()
         run: |
