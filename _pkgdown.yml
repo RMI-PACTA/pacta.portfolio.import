@@ -2,6 +2,7 @@ destination: docs
 development:
   mode: auto
 template:
+  package: pacta.pkgdown.template
   bootstrap: 5
   params:
     bootswatch: flatly
