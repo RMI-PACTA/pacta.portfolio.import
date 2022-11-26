@@ -7,10 +7,3 @@ template:
   params:
     bootswatch: flatly
 url: https://rmi-pacta.github.io/pacta.portfolio.import
-authors:
-  CJ Yetman:
-    href: https://github.com/cjyetman/
-  Jackson Hoffart:
-    href: https://github.com/jdhoffa/
-  Rocky Mountain Institute:
-    href: https://rmi.org
