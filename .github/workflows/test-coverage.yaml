@@ -45,12 +45,11 @@ jobs:
 
             overall_percentage <- covr::percent_coverage(df, by = by)
 
-            paste0("|file|percents|\n|----|----|\n",
+            paste0("coverage report\n|file|percents|\n|----|----|\n",
               paste0("|Overall|", format(overall_percentage, digits = 4), "%|\n"),
               paste0("|", names(percents), "|", format(percents, digits = 4), "%|", collapse = "\n"), "\n")
           }
           coverage_report_md <- markdown(covr::package_coverage())
-          system(paste0('echo "', coverage_report_md, '" >> $GITHUB_STEP_SUMMARY'))
           writeLines(coverage_report_md, "coverage-report.md")
         shell: Rscript {0}
       
@@ -60,7 +59,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
-          body-includes: coverage
+          body-includes: coverage report
 
       - name: Create or update comment
         uses: peter-evans/create-or-update-comment@v2
