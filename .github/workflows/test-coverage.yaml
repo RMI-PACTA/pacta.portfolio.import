@@ -49,8 +49,9 @@ jobs:
               paste0("|Overall|", format(overall_percentage, digits = 4), "%|\n"),
               paste0("|", names(percents), "|", format(percents, digits = 4), "%|", collapse = "\n"), "\n")
           }
-          system(paste0('echo "', markdown(covr::package_coverage()), '" >> $GITHUB_STEP_SUMMARY'))
-          system(paste0('echo "coverage-report=', markdown(covr::package_coverage()), '" >> $GITHUB_OUTPUT'))
+          coverage_report_md <- markdown(covr::package_coverage())
+          system(paste0('echo "', coverage_report_md, '" >> $GITHUB_STEP_SUMMARY'))
+          writeLines(coverage_report_md, "coverage-report.md")
         shell: Rscript {0}
       
       - name: Find Comment
@@ -66,9 +67,7 @@ jobs:
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            coverage
-            ${{ steps.coverage.outputs.coverage-report }}
+          body-file: 'coverage-report.md'
           edit-mode: replace
 
       - name: Show testthat output
