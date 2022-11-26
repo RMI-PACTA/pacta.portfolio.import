@@ -41,7 +41,7 @@ jobs:
               return(invisible(x))
             }
 
-            percents <- tapply(df$value, df[[group]], FUN = function(x) (sum(x > 0) / length(x)) * 100)
+            percents <- tapply(df$value, df[[group]], FUN = function(x) round((sum(x > 0) / length(x)) * 100))
 
             overall_percentage <- covr::percent_coverage(df, by = by)
 
