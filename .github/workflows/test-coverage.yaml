@@ -16,6 +16,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - uses: r-lib/actions/setup-r@v2
         with:
@@ -54,12 +56,14 @@ jobs:
             ttl_perc_diff <- paste0(ifelse(ttl_perc_diff < 0, ":small_red_triangle_down: ", ""), ifelse(ttl_perc_diff > 0, ":arrow_up: ", ""), format(ttl_perc_diff, digits = sig_num))
 
             paste0(
-              "coverage report\n", 
+              "<details>\n"
+              "<summary>Coverage Report</summary>\n\n", 
               "|file|head|main|diff|\n|", 
               " :-- | --: | --: | --: |\n",
               paste0("|Overall|", ttl_perc_head, "%|", ttl_perc_main, "%|", ttl_perc_diff, "%|", "\n"),
               paste0("|", names(percs_head), "|", percs_head, "%|", percs_main, "%|", percs_diff, "%|", collapse = "\n"),
-              "\n"
+              "\n",
+              "</details>"
             )
           }
           head <- covr::package_coverage()
