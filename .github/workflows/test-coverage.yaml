@@ -69,7 +69,7 @@ jobs:
           head <- covr::package_coverage()
           system2("git", c("checkout", "main"))
           main <- covr::package_coverage()
-          writeLines(coverage_report_md, "coverage-report.md")
+          writeLines(markdown_cov_diff(head, main), "coverage-report.md")
         shell: Rscript {0}
       
       - name: Find Comment
