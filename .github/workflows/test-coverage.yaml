@@ -29,27 +29,42 @@ jobs:
       - name: test-coverage
         id: coverage
         run: |
-          markdown <- function(x, group = c("filename", "functions"), by = "line", ...) {
-            if (length(x) == 0) {
-              return(invisible(x))
-            }
-            group <- match.arg(group)
+          markdown_cov_diff <- function(head, main) {
+            group <- "filename"
+            by = "line"
+            sig_num <- 2
 
-            df <- covr::tally_coverage(x, by = by)
+            tally_head <- covr::tally_coverage(head, by = by)
+            tally_main <- covr::tally_coverage(main, by = by)
 
-            if (!NROW(df)) {
-              return(invisible(x))
-            }
+            percs_head <- tapply(tally_head$value, tally_head[[group]], FUN = function(x) sum(x > 0) / length(x) * 100)
+            percs_main <- tapply(tally_main$value, tally_main[[group]], FUN = function(x) sum(x > 0) / length(x) * 100)
+            percs_diff <- unname(percs_head - percs_main)
 
-            percents <- tapply(df$value, df[[group]], FUN = function(x) round((sum(x > 0) / length(x)) * 100))
+            ttl_perc_head <- covr::percent_coverage(tally_head, by = by)
+            ttl_perc_main <- covr::percent_coverage(tally_main, by = by)
+            ttl_perc_diff <- ttl_perc_head - ttl_perc_main
 
-            overall_percentage <- covr::percent_coverage(df, by = by)
+            percs_head <- format(percs_head, digits = sig_num)
+            percs_main <- format(percs_main, digits = sig_num)
+            percs_diff <- paste0(ifelse(percs_diff < 0, ":small_red_triangle_down: ", ""), ifelse(percs_diff > 0, ":arrow_up: ", ""), format(percs_diff, digits = sig_num))
 
-            paste0("coverage report\n|file|percents|\n|----|----|\n",
-              paste0("|Overall|", format(overall_percentage, digits = 4), "%|\n"),
-              paste0("|", names(percents), "|", format(percents, digits = 4), "%|", collapse = "\n"), "\n")
+            ttl_perc_head <- format(ttl_perc_head, digits = sig_num)
+            ttl_perc_main <- format(ttl_perc_main, digits = sig_num)
+            ttl_perc_diff <- paste0(ifelse(ttl_perc_diff < 0, ":small_red_triangle_down: ", ""), ifelse(ttl_perc_diff > 0, ":arrow_up: ", ""), format(ttl_perc_diff, digits = sig_num))
+
+            paste0(
+              "coverage report\n", 
+              "|file|head|main|diff|\n|", 
+              " :-- | --: | --: | --: |\n",
+              paste0("|Overall|", ttl_perc_head, "%|", ttl_perc_main, "%|", ttl_perc_diff, "%|", "\n"),
+              paste0("|", names(percs_head), "|", percs_head, "%|", percs_main, "%|", percs_diff, "%|", collapse = "\n"),
+              "\n"
+            )
           }
-          coverage_report_md <- markdown(covr::package_coverage())
+          head <- covr::package_coverage()
+          system2("git", c("checkout", "main"))
+          main <- covr::package_coverage()
           writeLines(coverage_report_md, "coverage-report.md")
         shell: Rscript {0}
       
