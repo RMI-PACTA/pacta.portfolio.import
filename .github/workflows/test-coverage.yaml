@@ -56,7 +56,7 @@ jobs:
             ttl_perc_diff <- paste0(ifelse(ttl_perc_diff < 0, ":small_red_triangle_down: ", ""), ifelse(ttl_perc_diff > 0, ":arrow_up: ", ""), format(ttl_perc_diff, digits = sig_num))
 
             paste0(
-              "<details>\n"
+              "<details>\n",
               "<summary>Coverage Report</summary>\n\n", 
               "|file|head|main|diff|\n|", 
               " :-- | --: | --: | --: |\n",
