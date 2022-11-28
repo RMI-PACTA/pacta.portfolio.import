@@ -2,7 +2,7 @@ pandoc: 2.19.2
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles: {}
-last_built: 2022-11-28T18:43Z
+last_built: 2022-11-28T21:02Z
 urls:
   reference: https://rmi-pacta.github.io/pacta.portfolio.import/reference
   article: https://rmi-pacta.github.io/pacta.portfolio.import/articles
