@@ -70,6 +70,31 @@
 </div>
 <!-- badges: start -->
 
+<p>The <code>pacta.portfolio.import</code> R package provides a number of functions to facilitate the importing of a portfolio CSV intended to be analyzed by the <a href="https://github.com/RMI-PACTA/pacta.portfolio.analysis" class="external-link"><code>pacta.portfolio.analysis</code> R package</a>. Its primary exported function is <code><a href="reference/read_portfolio_csv.html">read_portfolio_csv()</a></code> which can read in one or more portfolio CSVs. Its other utility functions allow <code><a href="reference/read_portfolio_csv.html">read_portfolio_csv()</a></code> to work around a variety of formatting and encoding issues that have been seen in the wild, such as: automatically determining strange file encodings, strange number formats and numerical marks, and adapting to non-standard delimiters.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the development version of pacta.portfolio.import from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"RMI-PACTA/pacta.portfolio.import"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
+<p>To read in portfolio CSVs, you can pass a vector of relative or absolute file paths to <code><a href="reference/read_portfolio_csv.html">read_portfolio_csv()</a></code>. You can also pass the path to a directory and <code><a href="reference/read_portfolio_csv.html">read_portfolio_csv()</a></code> will import all readable CSVs found in the directory. For example…</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://rmi-pacta.github.io/pacta.portfolio.import">"pacta.portfolio.import"</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># read in a single portfolio CSV</span></span>
+<span><span class="fu"><a href="reference/read_portfolio_csv.html">read_portfolio_csv</a></span><span class="op">(</span><span class="st">"portfolio_1.csv"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># read in multiple portfolio CSVs</span></span>
+<span><span class="fu"><a href="reference/read_portfolio_csv.html">read_portfolio_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"portfolio_1.csv"</span>, <span class="st">"portfolio_2.csv"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># read in all portfolio CSVs in a directory</span></span>
+<span><span class="fu"><a href="reference/read_portfolio_csv.html">read_portfolio_csv</a></span><span class="op">(</span><span class="st">"portfolios/"</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
