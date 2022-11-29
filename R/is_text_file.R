@@ -16,7 +16,9 @@
 #' @param filepaths A character vector
 #'
 #' @return A logical vector the same length as `filepaths`.
+#'
 #' @export
+
 is_text_file <- function(filepaths) {
   filepaths <- simplify_if_one_col_df(filepaths)
   stopifnot("`filepaths` must be a character vector" = typeof(filepaths) == "character")
