@@ -1,3 +1,18 @@
+#' Guess the numerical marks in the `market_value` column of a portfolio CSV
+#'
+#' This function will guess the numerical marks in the `market_value` column of
+#' a portfolio CSV. It will return a single character string containing the
+#' guessed decimal or thousands grouping mark, depending on the value passed to
+#' `type`, for each portfolio CSV passed in `filepaths`.
+#'
+#' @param filepaths A character vector
+#' @param type A single character string, either "decimal" or "grouping"
+#'
+#' @return A character vector the same length as `filepaths` containing a single
+#'   character string defining the guessed numerical mark for each portfolio CSV
+#'
+#' @export
+
 guess_numerical_mark <- function(filepaths, type = "decimal") {
   filepaths <- simplify_if_one_col_df(filepaths)
   stopifnot("`filepaths` must be a character vector" = typeof(filepaths) == "character")

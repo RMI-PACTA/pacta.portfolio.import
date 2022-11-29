@@ -1,3 +1,20 @@
+#' Determine the headers of a portfolio CSV to import
+#'
+#' This function will return a named vector giving the names of the headers in
+#' the portfolio CSV that match the proper header names expected by
+#' pacta.portfolio.analysis. The name of each element will be the proper column
+#' name it matches to.
+#'
+#' @param filepath A character vector containing an absolute or relative path to
+#'   a single portfolio CSV
+#'
+#' @return A named character vector containing the names of the headers in the
+#'   portfolio CSV that match the proper header names expected by
+#'   pacta.portfolio.analysis. The name of each element will be the proper
+#'   column name it matches to.
+#'
+#' @export
+
 determine_headers <- function(filepath) {
   if (!is_text_file(filepath)) { return(NA_character_) }
 
