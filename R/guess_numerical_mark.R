@@ -28,7 +28,7 @@ guess_numerical_mark <- function(filepaths, type = "decimal") {
         num_col_idx <- match("market_value", names(headers))
         has_header_row <- TRUE
       } else {
-        # FIXME not sure what to do if columns can't be determined, or doesn't have header
+        warning("`market_value` column could not be determined")
         return(NA_character_)
       }
 
