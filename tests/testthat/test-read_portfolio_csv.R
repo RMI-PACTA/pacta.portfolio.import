@@ -170,3 +170,17 @@ test_that("reads a portfolio CSV with an ' ' grouping marker correctly", {
   result <- read_portfolio_csv(csv_file)
   expect_equal(unlist(result), unlist(portfolio_min))
 })
+
+test_that("reads a portfolio CSV with numeric names as characters", {
+  csv_file <- withr::local_tempfile(fileext = ".csv")
+
+  portfolio_alt <- portfolio_min
+  portfolio_alt$investor_name <- 1
+  portfolio_alt$portfolio_name <- 2
+
+  readr::write_csv(portfolio_alt, file = csv_file)
+
+  result <- read_portfolio_csv(csv_file)
+  expect_type(result$investor_name, "character")
+  expect_type(result$portfolio_name, "character")
+})
