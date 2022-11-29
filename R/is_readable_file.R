@@ -8,7 +8,7 @@
 #' @return A logical vector the same length as `filepaths`.
 #'
 #' @export
-#'
+
 is_readable_file <- function(filepaths) {
   vapply(
     X = filepaths,
