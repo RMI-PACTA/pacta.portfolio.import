@@ -14,7 +14,7 @@
 #' @return A character vector the same length as `filepaths`.
 #'
 #' @export
-#'
+
 guess_delimiter <- function(filepaths) {
   filepaths <- simplify_if_one_col_df(filepaths)
   stopifnot("`filepaths` must be a character vector" = typeof(filepaths) == "character")

@@ -14,7 +14,7 @@
 #' @return A character vector the same length as `filepaths`.
 #'
 #' @export
-#'
+
 guess_file_encoding <- function(filepaths, threshold = 0.2) {
   filepaths <- simplify_if_one_col_df(filepaths)
   stopifnot("`filepaths` must be a character vector" = typeof(filepaths) == "character")
