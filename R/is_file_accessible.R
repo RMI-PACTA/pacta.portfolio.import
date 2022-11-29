@@ -8,7 +8,9 @@
 #' @param filepaths A character vector
 #'
 #' @return A logical vector the same length as `filepaths`.
+#'
 #' @export
+
 is_file_accessible <- function(filepaths) {
   if (is.data.frame(filepaths) && identical(length(filepaths), 1L)) {
     filepaths <- filepaths[[1L]]

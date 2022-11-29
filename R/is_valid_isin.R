@@ -10,7 +10,7 @@
 #' @return A logical vector the same length as `isins`.
 #'
 #' @export
-#'
+
 is_valid_isin <- function(isins) {
   if (is.data.frame(isins) && identical(length(isins), 1L)) {
     isins <- isins[[1L]]
