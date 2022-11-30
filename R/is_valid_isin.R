@@ -16,6 +16,10 @@ is_valid_isin <- function(isins) {
     isins <- isins[[1L]]
   }
 
+  isins[is.na(isins)] <- "X" # set NAs to something sure to return FALSE
+  isins_factored <- as.factor(isins)
+  isins_lvls <- levels(isins_factored)
+
   is_luhn <- function(x) {
     digits <- suppressWarnings(as.numeric(rev(unlist(strsplit(x, "")))))
     odd <- seq_along(digits) %% 2 == 1
@@ -25,13 +29,13 @@ is_valid_isin <- function(isins) {
     sum(s1, s2) %% 10 == 0
   }
 
-  isins <- toupper(isins)
-  isins <- gsub(pattern = "[[:blank:]]", replacement = "", isins)
-  valid_struct <- grepl("^[[:upper:]]{2}[[:alnum:]]{9}[[:digit:]]$", isins)
+  isins_lvls <- toupper(isins_lvls)
+  isins_lvls <- gsub(pattern = "[[:blank:]]", replacement = "", isins_lvls)
+  valid_struct <- grepl("^[[:upper:]]{2}[[:alnum:]]{9}[[:digit:]]$", isins_lvls)
 
   valid_luhn <-
     vapply(
-      X = isins,
+      X = isins_lvls,
       FUN = function(x) {
         x <-
           stringi::stri_replace_all_fixed(
@@ -54,5 +58,5 @@ is_valid_isin <- function(isins) {
       USE.NAMES = FALSE
     )
 
-  valid_struct & valid_luhn
+  valid_struct[as.numeric(isins_factored)] & valid_luhn[as.numeric(isins_factored)]
 }
