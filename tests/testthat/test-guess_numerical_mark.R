@@ -26,4 +26,8 @@ test_that("correctly identifies the grouping mark", {
   comma_grouping_period_decimal <- withr::local_tempfile()
   writeLines('investor_name,portfolio_name,isin,market_value,currency\nx,y,z," 1,200.25 ",USD', comma_grouping_period_decimal)
   expect_identical(guess_grouping_mark(comma_grouping_period_decimal), ",")
-})
+
+  row_with_no_value <- withr::local_tempfile()  # resolves issue #14
+  writeLines('investor_name,portfolio_name,isin,market_value,currency\nx,y,z,100,USD\n,,,,', row_with_no_value)
+  expect_identical(guess_grouping_mark(row_with_no_value), ",")
+  })

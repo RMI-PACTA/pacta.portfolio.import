@@ -68,6 +68,7 @@ guess_numerical_mark <- function(filepaths, type = "decimal") {
       # determiine decimal and grouping mark -----------------------------------------
 
       other_chars <- unique(unlist(strsplit(gsub("[0-9]", "", all_num_chars), split = "")))
+      other_chars <- na.omit(other_chars)
 
       other_chars_cnts <-
         lapply(
