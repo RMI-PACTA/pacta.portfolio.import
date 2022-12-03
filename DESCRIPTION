@@ -45,6 +45,7 @@ Suggests:
     devtools,
     lifecycle,
     lintr,
+    pkgdown,
     roxygen2,
     spelling,
     styler,
