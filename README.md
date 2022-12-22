@@ -12,6 +12,13 @@ The `pacta.portfolio.import` R package provides a number of functions to facilit
 ## Installation
 
 You can install the development version of pacta.portfolio.import from
+[R-universe](https://r-universe.dev/) with:
+
+``` r
+install.packages("pacta.portfolio.import", repos = "https://rmi-pacta.r-universe.dev")
+```
+
+You can install the development version of pacta.portfolio.import from
 [GitHub](https://github.com/) with:
 
 ``` r
