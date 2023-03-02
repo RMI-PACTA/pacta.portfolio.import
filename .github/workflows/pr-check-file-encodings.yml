@@ -1,8 +1,5 @@
 name: check file encodings in PR
-
-on:
-  pull_request:
-  merge_group:
+on: [pull_request, merge_group]
 
 jobs:
   file-encoding:
