@@ -37,21 +37,22 @@ guess_file_encoding <- function(filepaths, threshold = 0.2) {
       }
 
       # Swiss - CP850
+      # a-umlaut - 0x84 - "\x84" - iconv("\x84", "cp850", "UTF-8") - validUTF8("\x84")
       # u-umlaut - 0x81 - "\x81" - iconv("\x81", "cp850", "UTF-8") - validUTF8("\x81")
       # o-umlaut - 0x94 - "\x94" - iconv("\x94", "cp850", "UTF-8") - validUTF8("\x94")
-      if (any(lines == as.raw(0x81)) || any(lines == as.raw(0x94))) {
+      if (any(c(as.raw(0x84), as.raw(0x81), as.raw(0x94)) %in% lines)) {
         return("cp850")
       }
 
       # Swiss - ISO-8859-1
       # a-umlaut - 0xe4 - "\x81" - iconv("\xe4", "ISO-8859-1", "UTF-8") - validUTF8("\xe4")
-      if (any(lines == as.raw(0xe4))) {
+      if (as.raw(0xe4) %in% lines) {
         return("ISO-8859-1")
       }
 
       # Norwegian - CP1252
       # slashed o - 0xf8 - "\xf8" - iconv("\xf8", "cp1252", "UTF-8") - validUTF8("\xf8")
-      if (any(lines == as.raw(0xf8))) {
+      if (as.raw(0xf8) %in% lines) {
         return("cp1252")
       }
 
