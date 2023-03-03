@@ -1,5 +1,8 @@
 name: check file encodings in PR
-on: pull_request
+on:
+  push:
+    branches: [main]
+  pull_request:
 jobs:
   file-encoding:
     name: file encoding check
