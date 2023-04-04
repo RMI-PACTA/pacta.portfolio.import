@@ -34,7 +34,7 @@ guess_delimiter <- function(filepaths) {
           progress = FALSE
         )
 
-      lines <- gsub("\"[^\"]*\"", "", lines)  # remove quoted strings
+      lines <- gsub("\"[^\"]*\"", "", lines) # remove quoted strings
 
       fields_per_line <- function(delim, lines) {
         delim_regex <- paste0("[", delim, "]")
@@ -42,10 +42,10 @@ guess_delimiter <- function(filepaths) {
         if (isFALSE(identical(x = length(delims_per_line), 1L))) {
           return(0L)
         }
-        delims_per_line + 1  # 0 delimiters = 1 fields, 1 delimiter = 2 fields, etc.
+        delims_per_line + 1 # 0 delimiters = 1 fields, 1 delimiter = 2 fields, etc.
       }
 
-      delims = c(",", ";", "\t", "|", ":")
+      delims <- c(",", ";", "\t", "|", ":")
       fields_per_line_per_delim <- vapply(X = delims, FUN = fields_per_line, FUN.VALUE = numeric(1), lines)
       names(which.max(fields_per_line_per_delim))
     },

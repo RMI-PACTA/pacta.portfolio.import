@@ -78,8 +78,10 @@ test_that("returns expected values", {
   text_file <- withr::local_tempfile()
   writeLines("XXX", text_file)
 
-  files <- c(non_existant_file, directory, empty_file,
-             binary_file, text_file, NA_character_)
+  files <- c(
+    non_existant_file, directory, empty_file,
+    binary_file, text_file, NA_character_
+  )
 
   expect_identical(is_text_file(files), c(FALSE, FALSE, FALSE, FALSE, TRUE, FALSE))
 })

@@ -15,8 +15,7 @@
 
 get_csv_specs <- function(files, expected_colnames = c("Investor.Name", "Portfolio.Name", "ISIN", "MarketValue", "Currency")) {
   alert_by_type <- function(type, ...) {
-    switch(
-      type,
+    switch(type,
       info = cli::cli_alert_info(...),
       warning = cli::cli_alert_warning(...),
       danger = cli::cli_alert_danger(...),
@@ -128,7 +127,9 @@ get_csv_specs <- function(files, expected_colnames = c("Investor.Name", "Portfol
   files_df$filepath_is_ascii <- stringi::stri_enc_isascii(files_df$filepath)
 
   detected_filepath_encoding_tbls <- stringi::stri_enc_detect(files_df$filepath)
-  files_df$filepath_encoding <- vapply(detected_filepath_encoding_tbls, function(x) { x$Encoding[[1]] }, character(1))
+  files_df$filepath_encoding <- vapply(detected_filepath_encoding_tbls, function(x) {
+    x$Encoding[[1]]
+  }, character(1))
 
   files_df$filepath_declared_encoding <- Encoding(files_df$filepath)
 
@@ -340,8 +341,12 @@ get_locales <- function(encodings, decimal_marks, grouping_marks) {
   vapply(
     X = seq_along(encodings),
     FUN = function(i) {
-      if (is.na(decimal_marks[[i]])) { decimal_marks[[i]] <- "."}
-      if (is.na(grouping_marks[[i]])) { grouping_marks[[i]] <- ","}
+      if (is.na(decimal_marks[[i]])) {
+        decimal_marks[[i]] <- "."
+      }
+      if (is.na(grouping_marks[[i]])) {
+        grouping_marks[[i]] <- ","
+      }
       list(
         readr::locale(
           encoding = encodings[[i]],
@@ -384,7 +389,8 @@ guess_content_types <- function(filepaths) {
     FUN = function(x) {
       wand::guess_content_type(x)[[1]]
     },
-    FUN.VALUE = character(1))
+    FUN.VALUE = character(1)
+  )
 }
 
 

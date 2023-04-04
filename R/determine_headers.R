@@ -16,7 +16,9 @@
 #' @export
 
 determine_headers <- function(filepath) {
-  if (!is_text_file(filepath)) { return(NA_character_) }
+  if (!is_text_file(filepath)) {
+    return(NA_character_)
+  }
 
   encoding <- guess_file_encoding(filepath)
   delimiter <- guess_delimiter(filepath)
@@ -87,8 +89,12 @@ determine_headers <- function(filepath) {
     }
   }
 
-  if (not_portfolio_csv) { return(NA_character_) }
-  if (!has_header) { return(col_names) }
+  if (not_portfolio_csv) {
+    return(NA_character_)
+  }
+  if (!has_header) {
+    return(col_names)
+  }
 
   headers[is.na(headers)] <- ""
 

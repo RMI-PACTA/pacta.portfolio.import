@@ -11,13 +11,19 @@
 
 is_valid_cusip <- function(cusips) {
   valid_cusip <- function(x) {
-    if (nchar(x) != 9) return(FALSE)
+    if (nchar(x) != 9) {
+      return(FALSE)
+    }
 
     characters <- c(0:9, LETTERS, "*", "@", "#")
 
     digits <- unlist(strsplit(toupper(as.character(x)), split = NULL))
-    if (any(is.na(match(digits, characters)))) return(FALSE)
-    if (!digits[9] %in% 0:9) return(FALSE)
+    if (any(is.na(match(digits, characters)))) {
+      return(FALSE)
+    }
+    if (!digits[9] %in% 0:9) {
+      return(FALSE)
+    }
 
     code <- digits[1:8]
     check <- as.integer(digits[9])
@@ -27,15 +33,17 @@ is_valid_cusip <- function(cusips) {
     digits <-
       vapply(
         X = digits,
-        FUN = function(x) { match(x, characters) - 1L },
+        FUN = function(x) {
+          match(x, characters) - 1L
+        },
         FUN.VALUE = integer(1L)
       )
 
     digits[c(FALSE, TRUE)] <- digits[c(FALSE, TRUE)] * 2
 
     digit_sum_mod10 <- function(x) {
-        sum(floor(x / 10^(0:(nchar(x) - 1))) %% 10) %% 10
-      }
+      sum(floor(x / 10^(0:(nchar(x) - 1))) %% 10) %% 10
+    }
     digits <- vapply(digits, digit_sum_mod10, numeric(1))
 
     check == (10 - (sum(digits) %% 10)) %% 10
