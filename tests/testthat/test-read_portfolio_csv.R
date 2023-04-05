@@ -20,11 +20,13 @@ test_that("reads a portfolio CSV with old column names", {
 
   portfolio_alt <- portfolio_min
   names(portfolio_alt) <-
-    c("Investor.Name",
+    c(
+      "Investor.Name",
       "Portfolio.Name",
       "ISIN",
       "Market.Value",
-      "Currency")
+      "Currency"
+    )
 
   readr::write_csv(portfolio_alt, file = csv_file)
 

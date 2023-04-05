@@ -97,16 +97,18 @@ read_portfolio_csv <- function(filepaths, combine = TRUE) {
         )
 
       portfolio_df <-
-        dplyr::select(portfolio_df,
-                      dplyr::any_of(
-                        c(
-                          "investor_name",
-                          "portfolio_name",
-                          "isin",
-                          "market_value",
-                          "currency"
-                        )
-                      ))
+        dplyr::select(
+          portfolio_df,
+          dplyr::any_of(
+            c(
+              "investor_name",
+              "portfolio_name",
+              "isin",
+              "market_value",
+              "currency"
+            )
+          )
+        )
 
       guessed_attrs <-
         list(
@@ -128,7 +130,9 @@ read_portfolio_csv <- function(filepaths, combine = TRUE) {
     USE.NAMES = TRUE
   )
 
-  if (length(portfolio_dfs) == 1L) { return(portfolio_dfs[[1L]]) }
+  if (length(portfolio_dfs) == 1L) {
+    return(portfolio_dfs[[1L]])
+  }
 
   if (combine) {
     return(dplyr::bind_rows(portfolio_dfs[!is.na(portfolio_dfs)], .id = "filepath"))

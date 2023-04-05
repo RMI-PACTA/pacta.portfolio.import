@@ -96,7 +96,7 @@ guess_numerical_mark <- function(filepaths, type = "decimal") {
       common_decimals <- c(".", ",")
       common_grouping_marks <- c(",", ".", " ", "'", "|")
 
-      possible_decimals <- possible_decimals[possible_decimals %in% common_decimals]  # readr::locale() only accepts decimal_mark %in% c(".", ",")
+      possible_decimals <- possible_decimals[possible_decimals %in% common_decimals] # readr::locale() only accepts decimal_mark %in% c(".", ",")
 
       if (length(possible_decimals) == 0) {
         decimal_mark <- common_decimals[!common_decimals %in% possible_group_marks][[1]]

@@ -17,8 +17,10 @@ test_that("always outputs a character vector", {
   write.csv(data.frame(a = 1, b = 2), file = csv_file)
 
   tsv_file <- withr::local_tempfile(fileext = ".tsv")
-  write.table(data.frame(a = 1, b = 2), sep = "\t", row.names = FALSE,
-              quote = FALSE, file = tsv_file)
+  write.table(data.frame(a = 1, b = 2),
+    sep = "\t", row.names = FALSE,
+    quote = FALSE, file = tsv_file
+  )
 
   tar_file <- withr::local_tempfile(fileext = ".tar")
   tar(tar_file, csv_file)
@@ -26,8 +28,10 @@ test_that("always outputs a character vector", {
   tar_file_with_csv_ext <- withr::local_tempfile(fileext = ".csv")
   tar(tar_file_with_csv_ext, csv_file)
 
-  files <- c(non_existant_file, directory, empty_file, binary_file, txt_file,
-             csv_file, tsv_file, tar_file, tar_file_with_csv_ext)
+  files <- c(
+    non_existant_file, directory, empty_file, binary_file, txt_file,
+    csv_file, tsv_file, tar_file, tar_file_with_csv_ext
+  )
 
   expect_vector(guess_file_encoding(files[1L]), ptype = character(), size = 1L)
   expect_vector(guess_file_encoding(files[2L]), ptype = character(), size = 1L)
@@ -90,8 +94,10 @@ test_that("returns expected values", {
   write.csv(data.frame(a = 1, b = 2), file = csv_file)
 
   tsv_file <- withr::local_tempfile(fileext = ".tsv")
-  write.table(data.frame(a = 1, b = 2), sep = "\t", row.names = FALSE,
-              quote = FALSE, file = tsv_file)
+  write.table(data.frame(a = 1, b = 2),
+    sep = "\t", row.names = FALSE,
+    quote = FALSE, file = tsv_file
+  )
 
   tar_file <- withr::local_tempfile(fileext = ".tar")
   tar(tar_file, csv_file)
@@ -99,8 +105,10 @@ test_that("returns expected values", {
   tar_file_with_csv_ext <- withr::local_tempfile(fileext = ".csv")
   tar(tar_file_with_csv_ext, csv_file)
 
-  files <- c(non_existant_file, directory, empty_file, binary_file, txt_file,
-             csv_file, tsv_file, tar_file, tar_file_with_csv_ext)
+  files <- c(
+    non_existant_file, directory, empty_file, binary_file, txt_file,
+    csv_file, tsv_file, tar_file, tar_file_with_csv_ext
+  )
 
   expect_identical(guess_file_encoding(files), c(NA, NA, NA, "binary", "ascii", "ascii", "ascii", "binary", "binary"))
 
