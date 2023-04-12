@@ -79,11 +79,11 @@ jobs:
           body-includes: '<summary>Coverage Report</summary>'
 
       - name: Create or update comment
-        uses: peter-evans/create-or-update-comment@v2
+        uses: peter-evans/create-or-update-comment@v3
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
-          body-file: 'coverage-report.md'
+          body-path: 'coverage-report.md'
           edit-mode: replace
 
       - name: Show testthat output
