@@ -83,7 +83,7 @@ jobs:
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
-          body-file: 'coverage-report.md'
+          body-path: 'coverage-report.md'
           edit-mode: replace
 
       - name: Show testthat output
