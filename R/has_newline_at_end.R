@@ -23,7 +23,7 @@ has_newline_at_end <- function(filepaths) {
         }
       }
 
-      grepl("[\n\r]$", prev_chars)
+      grepl("[\n\r]$", iconv(prev_chars, to = "UTF-8", sub = ""))
     },
     FUN.VALUE = logical(1),
     USE.NAMES = FALSE
