@@ -24,6 +24,15 @@ test_that("file_has_newline_at_end identifies no trailing newline - printf", {
   expect_false(file_has_newline_at_end(filepath))
 })
 
+#printf does not include trailing newlines by default
+test_that("file_has_newline_at_end - no trailing newline - multiline", {
+  filepath <- tempfile()
+  system(paste("echo", "foo", ">", filepath))
+  system(paste("printf", "%s", "Xsecondline", ">>", filepath))
+  expect_false(file_has_newline_at_end(filepath))
+})
+
+
 test_that("file_has_newline_at_end returns NA for empty file", {
   filepath <- tempfile()
   expect_identical(file_has_newline_at_end(filepath), NA) # logical NA
@@ -37,3 +46,21 @@ test_that("file_has_newline_at_end expects a single file", {
     "`filepath` must be length 1"
   )
 })
+
+## vector of filepaths
+test_that("has_newline_at_end correctly identifies vector of paths", {
+  has_newlines <- tempfile()
+  writeLines(c("yay", "newlines"), has_newlines, sep = "\n") # default behavior
+  no_newlines <- tempfile()
+  writeLines(c("yay", "newlines"), no_newlines, sep = " ")
+  emptyfile <- tempfile()
+  multiline <- tempfile()
+  system(paste("echo", "foo", ">", multiline))
+  system(paste("printf", "%s", "Xsecondline", ">>", multiline))
+  path_vec <- c(has_newlines, no_newlines, emptyfile, multiline)
+  expect_identical(
+    has_newline_at_end(path_vec),
+    c(TRUE, FALSE, NA, FALSE)
+  )
+})
+
