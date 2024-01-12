@@ -62,6 +62,16 @@ read_portfolio_csv <- function(filepaths, combine = TRUE) {
 
 read_single_portfolio_csv <- function(filepath) {
 
+  if (length(filepath) != 1L) {
+    stop("`filepath` must be a single string")
+  }
+  if (typeof(filepath) != "character") {
+    stop("`filepath` must be a string")
+  }
+  if (!file.exists(filepath)) {
+    stop(paste("file does not exist:", filepath))
+  }
+
   if (!is_text_file(filepath)) {
     return(list(NA))
   }
