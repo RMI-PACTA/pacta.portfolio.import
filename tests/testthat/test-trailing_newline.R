@@ -105,7 +105,7 @@ test_that("has_newline_at_end correctly identifies vector of paths", {
 
 
 test_that(
-  "file_has_newline_at_end does not identify CR (\r) as trailing newline)",
+  "file_has_newline_at_end does not identify CR (\\r) as trailing newline)",
   {
     expect_false(
       file_has_newline_at_end(
@@ -127,7 +127,7 @@ test_that(
 )
 
 test_that(
-  "file_has_newline_at_end does not identify LFCR (\n\r) as trailing newline)",
+  "file_has_newline_at_end does not id LFCR (\\n\\r) as trailing newline)",
   {
     expect_false(
       file_has_newline_at_end(

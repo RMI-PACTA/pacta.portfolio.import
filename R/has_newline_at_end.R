@@ -9,7 +9,7 @@ file_has_newline_at_end <- function(filepath) {
   if (!is_file_accessible(filepath) || !is_text_file(filepath)) {
     return(NA)
   }
-  if (.Platform$OS.type == "unix") {
+  if (FALSE) {
     newlines_in_final_char <- system(
       command = paste(
         "tail -c1 ", filepath, # tail -c1 returns last 1 byte
@@ -36,7 +36,9 @@ file_has_newline_at_end <- function(filepath) {
     }
 
     has_trailing_newline <- grepl(
-      "[\n\r]$", iconv(prev_chars, to = "UTF-8", sub = "")
+      # using [\n] instead of [\n\r] because modern systems use either \n or
+      # \r\n as newline, both of which match \n as lst character.
+      "[\n]$", iconv(prev_chars, to = "UTF-8", sub = "")
     )
 
   }
