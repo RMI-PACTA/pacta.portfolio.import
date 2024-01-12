@@ -37,7 +37,7 @@ file_has_newline_at_end <- function(filepath) {
 
     has_trailing_newline <- grepl(
       # using [\n] instead of [\n\r] because modern systems use either \n or
-      # \r\n as newline, both of which match \n as lst character.
+      # \r\n as newline, both of which match \n as last character.
       "[\n]$", iconv(prev_chars, to = "UTF-8", sub = "")
     )
 
