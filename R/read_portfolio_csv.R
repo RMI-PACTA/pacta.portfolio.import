@@ -18,7 +18,10 @@
 
 read_portfolio_csv <- function(filepaths, combine = TRUE) {
   filepaths <- simplify_if_one_col_df(filepaths)
-  stopifnot("`filepaths` must be a character vector" = typeof(filepaths) == "character")
+  stopifnot(
+    "`filepaths` must be a character vector" =
+      typeof(filepaths) == "character"
+  )
 
   filepaths <- canonize_path(filepaths)
 
@@ -38,93 +41,7 @@ read_portfolio_csv <- function(filepaths, combine = TRUE) {
     X = filepaths,
     FUN = function(filepath) {
       pb$tick(tokens = list(what = basename(filepath)))
-
-      if (!is_text_file(filepath)) {
-        return(list(NA))
-      }
-
-      if (!has_consistent_fields_per_line(filepath)) {
-        return(list(NA))
-      }
-
-      encoding <- guess_file_encoding(filepath)
-      delimiter <- guess_delimiter(filepath)
-      decimal_mark <- guess_decimal_mark(filepath)
-      grouping_mark <- guess_grouping_mark(filepath)
-      if (any(is.na(c(encoding, delimiter, decimal_mark, grouping_mark)))) {
-        return(list(NA))
-      }
-
-      locale <-
-        readr::locale(
-          decimal_mark = decimal_mark,
-          grouping_mark = grouping_mark,
-          encoding = encoding
-        )
-
-      headers <- determine_headers(filepath)
-
-      if (length(headers) == 3) {
-        col_types <-
-          readr::cols(
-            isin = readr::col_character(),
-            market_value = readr::col_number(),
-            currency = readr::col_character()
-          )
-      } else if (length(headers) >= 5) {
-        col_types <-
-          readr::cols(
-            investor_name = readr::col_character(),
-            portfolio_name = readr::col_character(),
-            isin = readr::col_character(),
-            market_value = readr::col_number(),
-            currency = readr::col_character()
-          )
-      } else {
-        return(list(NA))
-      }
-
-      portfolio_df <-
-        readr::read_delim(
-          file = filepath,
-          skip = 1L,
-          col_names = names(headers),
-          col_types = col_types,
-          locale = locale,
-          delim = delimiter,
-          show_col_types = FALSE,
-          progress = FALSE
-        )
-
-      portfolio_df <-
-        dplyr::select(
-          portfolio_df,
-          dplyr::any_of(
-            c(
-              "investor_name",
-              "portfolio_name",
-              "isin",
-              "market_value",
-              "currency"
-            )
-          )
-        )
-
-      guessed_attrs <-
-        list(
-          filename = basename(filepath),
-          filepath = filepath,
-          has_newline_at_end = has_newline_at_end(filepath),
-          encoding = encoding,
-          delimiter = delimiter,
-          original_headers = as.character(headers),
-          num_of_cols = attr(headers, which = "num_of_cols"),
-          decimal_mark = decimal_mark,
-          grouping_mark = grouping_mark
-        )
-      attr(portfolio_df, which = "read_portfolio_csv") <- guessed_attrs
-
-      list(portfolio_df)
+      return(read_single_portfolio_csv(filepath))
     },
     FUN.VALUE = list(1L),
     USE.NAMES = TRUE
@@ -135,8 +52,100 @@ read_portfolio_csv <- function(filepaths, combine = TRUE) {
   }
 
   if (combine) {
-    return(dplyr::bind_rows(portfolio_dfs[!is.na(portfolio_dfs)], .id = "filepath"))
+    return(
+      dplyr::bind_rows(portfolio_dfs[!is.na(portfolio_dfs)], .id = "filepath")
+    )
   }
 
   portfolio_dfs
+}
+
+read_single_portfolio_csv <- function(filepath) {
+
+  if (!is_text_file(filepath)) {
+    return(list(NA))
+  }
+
+  if (!has_consistent_fields_per_line(filepath)) {
+    return(list(NA))
+  }
+
+  encoding <- guess_file_encoding(filepath)
+  delimiter <- guess_delimiter(filepath)
+  decimal_mark <- guess_decimal_mark(filepath)
+  grouping_mark <- guess_grouping_mark(filepath)
+  if (any(is.na(c(encoding, delimiter, decimal_mark, grouping_mark)))) {
+    return(list(NA))
+  }
+
+  locale <-
+    readr::locale(
+      decimal_mark = decimal_mark,
+      grouping_mark = grouping_mark,
+      encoding = encoding
+    )
+
+  headers <- determine_headers(filepath)
+
+  if (length(headers) == 3) {
+    col_types <-
+      readr::cols(
+        isin = readr::col_character(),
+        market_value = readr::col_number(),
+        currency = readr::col_character()
+      )
+  } else if (length(headers) >= 5) {
+    col_types <-
+      readr::cols(
+        investor_name = readr::col_character(),
+        portfolio_name = readr::col_character(),
+        isin = readr::col_character(),
+        market_value = readr::col_number(),
+        currency = readr::col_character()
+      )
+  } else {
+    return(list(NA))
+  }
+
+  portfolio_df <-
+    readr::read_delim(
+      file = filepath,
+      skip = 1L,
+      col_names = names(headers),
+      col_types = col_types,
+      locale = locale,
+      delim = delimiter,
+      show_col_types = FALSE,
+      progress = FALSE
+    )
+
+  portfolio_df <-
+    dplyr::select(
+      portfolio_df,
+      dplyr::any_of(
+        c(
+          "investor_name",
+          "portfolio_name",
+          "isin",
+          "market_value",
+          "currency"
+        )
+      )
+    )
+
+  guessed_attrs <-
+    list(
+      filename = basename(filepath),
+      filepath = filepath,
+      has_newline_at_end = has_newline_at_end(filepath),
+      encoding = encoding,
+      delimiter = delimiter,
+      original_headers = as.character(headers),
+      num_of_cols = attr(headers, which = "num_of_cols"),
+      decimal_mark = decimal_mark,
+      grouping_mark = grouping_mark
+    )
+  attr(portfolio_df, which = "read_portfolio_csv") <- guessed_attrs
+
+  return(list(portfolio_df))
 }
