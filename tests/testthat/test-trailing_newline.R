@@ -1,40 +1,74 @@
-test_that("file_has_newline_at_end identifies file with trailing newline", {
-  filepath <- tempfile()
-  writeLines(c("yay", "newlines"), filepath, sep = "\n") # default behavior
-  expect_true(file_has_newline_at_end(filepath))
-})
+test_that(
+  "file_has_newline_at_end identifies trailing newline (R writeLines())",
+  {
+    expect_true(
+      file_has_newline_at_end(
+        testthat::test_path("testdata", "newline", "writeLines.txt")
+      )
+    )
+  }
+)
 
 #echo includes trailing newlines by default
-test_that("file_has_newline_at_end identifies trailing newline - echo", {
-  filepath <- tempfile()
-  system(paste("echo", "foo", ">", filepath))
-  expect_true(file_has_newline_at_end(filepath))
-})
+test_that(
+  "file_has_newline_at_end identifies trailing newline (POSIX echo)",
+  {
+    expect_true(
+      file_has_newline_at_end(
+      testthat::test_path("testdata", "newline", "echo.txt")
+      )
+    )
+  }
+)
 
-test_that("file_has_newline_at_end identifies file with no trailing newline", {
-  filepath <- tempfile()
-  writeLines(c("yay", "newlines"), filepath, sep = " ") # sep changed
-  expect_false(file_has_newline_at_end(filepath))
-})
+test_that(
+  "file_has_newline_at_end flags missing trailing newline (R writeLines())",
+  {
+    expect_false(
+      file_has_newline_at_end(
+        testthat::test_path("testdata", "newline", "writeLines_nonewline.txt")
+      )
+    )
+  }
+)
 
 #printf does not include trailing newlines by default
-test_that("file_has_newline_at_end identifies no trailing newline - printf", {
-  filepath <- tempfile()
-  system(paste("printf", "%s", "no newlines", ">", filepath))
-  expect_false(file_has_newline_at_end(filepath))
-})
+test_that(
+  "file_has_newline_at_end flags missing trailing newline (POSIX printf)",
+  {
+    expect_false(
+      file_has_newline_at_end(
+        testthat::test_path("testdata", "newline", "printf_nonewline.txt")
+      )
+    )
+  }
+)
 
-#printf does not include trailing newlines by default
-test_that("file_has_newline_at_end - no trailing newline - multiline", {
-  filepath <- tempfile()
-  system(paste("echo", "foo", ">", filepath))
-  system(paste("printf", "%s", "Xsecondline", ">>", filepath))
-  expect_false(file_has_newline_at_end(filepath))
-})
+test_that(
+  "file_has_newline_at_end flags missing trailing newline (multiline file)",
+  {
+    expect_false(
+      file_has_newline_at_end(
+        testthat::test_path("testdata", "newline", "multiline_nonewline.txt")
+      )
+    )
+  }
+)
 
+test_that(
+  "file_has_newline_at_end returns NA for empty file (POSIX touch))",
+  {
+    expect_identical(
+      file_has_newline_at_end(
+        testthat::test_path("testdata", "newline", "touch.txt")
+      ),
+      NA
+    )
+  }
+)
 
-test_that("file_has_newline_at_end returns NA for empty file", {
-  filepath <- tempfile()
+test_that("file_has_newline_at_end returns NA for non-existing file", {
+  filepath <- tempfile() # file does not exist yet
   expect_identical(file_has_newline_at_end(filepath), NA) # logical NA
 })
 
@@ -49,18 +83,22 @@ test_that("file_has_newline_at_end expects a single file", {
 
 ## vector of filepaths
 test_that("has_newline_at_end correctly identifies vector of paths", {
-  has_newlines <- tempfile()
-  writeLines(c("yay", "newlines"), has_newlines, sep = "\n") # default behavior
-  no_newlines <- tempfile()
-  writeLines(c("yay", "newlines"), no_newlines, sep = " ")
-  emptyfile <- tempfile()
-  multiline <- tempfile()
-  system(paste("echo", "foo", ">", multiline))
-  system(paste("printf", "%s", "Xsecondline", ">>", multiline))
-  path_vec <- c(has_newlines, no_newlines, emptyfile, multiline)
+  has_newlines <- testthat::test_path(
+    "testdata", "newline", "writeLines.txt"
+  )
+  no_newlines <- testthat::test_path(
+    "testdata", "newline", "writeLines_nonewline.txt"
+  )
+  emptyfile <- testthat::test_path(
+    "testdata", "newline", "touch.txt"
+  )
+  missing_file <- tempfile()
+  multiline <- testthat::test_path(
+    "testdata", "newline", "multiline_nonewline.txt"
+  )
+  path_vec <- c(has_newlines, no_newlines, emptyfile, missing_file, multiline)
   expect_identical(
     has_newline_at_end(path_vec),
-    c(TRUE, FALSE, NA, FALSE)
+    c(TRUE, FALSE, NA, NA, FALSE)
   )
 })
-
