@@ -22,7 +22,7 @@ test_that("column names with no underscore are properly determined", {
 test_that("column names with leading and lagging whitespace are properly determined", {
   proper_names <- c("investor_name", "portfolio_name", "isin", "market_value", "currency")
   lead_and_lag_whitespace <- withr::local_tempfile()
-  writeLines(" investor_name,portfolio_name , isin ,market_value,currency\nx,y,z,1,a", lead_and_lag_whitespace)
+  writeLines("  investor_name,portfolio_name  ,  isin  ,  market_value,currency \nx,y,z,1,a", lead_and_lag_whitespace)
   expect_setequal(names(determine_headers(lead_and_lag_whitespace)), proper_names)
 })
 
