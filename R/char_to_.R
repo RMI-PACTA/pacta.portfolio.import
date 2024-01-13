@@ -1,3 +1,6 @@
+# These functions return ascii representations of extended or unicode
+# characters using hex or unicode R escape strings
+
 char_to_hex <- function(x) {
   cat(paste(paste0("\\x", charToRaw(x)), collapse = ""))
 }
