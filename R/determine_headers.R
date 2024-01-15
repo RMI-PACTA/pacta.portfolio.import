@@ -59,9 +59,9 @@ determine_headers <- function(filepath) {
     num_of_cols <- length(headers)
 
     if (num_of_cols >= 3) {
-      isin_col <- grep(pattern = "^[[:space:]]?isin[[:space:]]?$", x = headers, ignore.case = TRUE, value = TRUE)
-      market_value_col <- grep(pattern = "^[[:space:]]?market[._ ]{0,1}value[[:space:]]?$", x = headers, ignore.case = TRUE, value = TRUE)
-      currency_col <- grep(pattern = "^[[:space:]]?currency[[:space:]]?$", x = headers, ignore.case = TRUE, value = TRUE)
+      isin_col <- grep(pattern = "^[[:space:]]*isin[[:space:]]*$", x = headers, ignore.case = TRUE, value = TRUE)
+      market_value_col <- grep(pattern = "^[[:space:]]*market[._ ]{0,1}value[[:space:]]*$", x = headers, ignore.case = TRUE, value = TRUE)
+      currency_col <- grep(pattern = "^[[:space:]]*currency[[:space:]]*$", x = headers, ignore.case = TRUE, value = TRUE)
 
       if (num_of_cols > 3) {
         investor_name_col <- grep(pattern = "investor", x = headers, ignore.case = TRUE, value = TRUE)
