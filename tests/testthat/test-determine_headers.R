@@ -22,7 +22,35 @@ test_that("column names with no underscore are properly determined", {
 test_that("column names with leading and lagging whitespace are properly determined", {
   proper_names <- c("investor_name", "portfolio_name", "isin", "market_value", "currency")
   lead_and_lag_whitespace <- withr::local_tempfile()
+  writeLines(" investor_name,portfolio_name , isin , market_value,currency \nx,y,z,1,a", lead_and_lag_whitespace)
+  expect_setequal(names(determine_headers(lead_and_lag_whitespace)), proper_names)
+})
+
+test_that("column names with leading and lagging whitespace are properly determined (double-padded)", {
+  proper_names <- c("investor_name", "portfolio_name", "isin", "market_value", "currency")
+  lead_and_lag_whitespace <- withr::local_tempfile()
   writeLines("  investor_name,portfolio_name  ,  isin  ,  market_value,currency \nx,y,z,1,a", lead_and_lag_whitespace)
+  expect_setequal(names(determine_headers(lead_and_lag_whitespace)), proper_names)
+})
+
+test_that("column names with leading and lagging whitespace are properly determined (tab-padded)", {
+  proper_names <- c("investor_name", "portfolio_name", "isin", "market_value", "currency")
+  lead_and_lag_whitespace <- withr::local_tempfile()
+  writeLines("\tinvestor_name,portfolio_name\t,\tisin\t,\tmarket_value,currency \nx,y,z,1,a", lead_and_lag_whitespace)
+  expect_setequal(names(determine_headers(lead_and_lag_whitespace)), proper_names)
+})
+
+test_that("column names with leading and lagging whitespace are properly determined (double-tab-padded)", {
+  proper_names <- c("investor_name", "portfolio_name", "isin", "market_value", "currency")
+  lead_and_lag_whitespace <- withr::local_tempfile()
+  writeLines("\t\tinvestor_name,portfolio_name\t\t,\t\tisin\t\t,\t\tmarket_value,currency \nx,y,z,1,a", lead_and_lag_whitespace)
+  expect_setequal(names(determine_headers(lead_and_lag_whitespace)), proper_names)
+})
+
+test_that("column names with leading and lagging whitespace are properly determined (space-and-tab-padded)", {
+  proper_names <- c("investor_name", "portfolio_name", "isin", "market_value", "currency")
+  lead_and_lag_whitespace <- withr::local_tempfile()
+  writeLines(" \tinvestor_name,portfolio_name\t ,\t isin\t\t, \tmarket_value,currency \nx,y,z,1,a", lead_and_lag_whitespace)
   expect_setequal(names(determine_headers(lead_and_lag_whitespace)), proper_names)
 })
 
