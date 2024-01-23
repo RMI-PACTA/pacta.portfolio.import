@@ -13,10 +13,10 @@ test_that("has_newline_at_end identifies trailing newline", {
 })
 
 test_that("has_newline_at_end identifies trailing return", {
-  return <- withr::local_tempfile()
-  writeChar("A,B\r1,2\r", return, eos = NULL)
-  expect_true(tail(readBin(return, what = "raw", n = 10), n = 1) == charToRaw("\r"))
-  expect_false(has_newline_at_end(return))
+  trailing_return <- withr::local_tempfile()
+  writeChar("A,B\r1,2\r", trailing_return, eos = NULL)
+  expect_true(tail(readBin(trailing_return, what = "raw", n = 10), n = 1) == charToRaw("\r"))
+  expect_false(has_newline_at_end(trailing_return))
 })
 
 test_that("has_newline_at_end identifies trailing return and newline", {
