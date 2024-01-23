@@ -23,7 +23,10 @@ has_newline_at_end <- function(filepaths) {
         }
       }
 
-      grepl("[\n\r]$", iconv(prev_chars, to = "UTF-8", sub = ""))
+      # using [\n] instead of [\n\r] because modern systems use either \n or
+      # \r\n as newline, both of which match \n as last character.
+      # \r as last character should not be recognized as trailing newline.
+      grepl("[\n]$", iconv(prev_chars, to = "UTF-8", sub = ""))
     },
     FUN.VALUE = logical(1),
     USE.NAMES = FALSE
