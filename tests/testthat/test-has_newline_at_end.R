@@ -38,3 +38,18 @@ test_that("has_newline_at_end identifies an inaccessible filepath", {
   expect_false(file.exists(filepath))
   expect_equal(has_newline_at_end(filepath), NA)
 })
+
+test_that("has_newline_at_end behaves as expected when multiple filepaths are passed", {
+  binary <- withr::local_tempfile()
+  writeBin(1:5, binary)
+  no_newline <- withr::local_tempfile()
+  writeChar("A,B\n1,2", no_newline, eos = NULL)
+  newline <- withr::local_tempfile()
+  writeChar("A,B\n1,2\n", newline, eos = NULL)
+  invalid_filepath <- "non-existant-file.txt"
+  expect_equal(has_newline_at_end(c(binary, no_newline, newline, invalid_filepath)), c(NA, FALSE, TRUE, NA))
+  expect_equal(has_newline_at_end(c(binary, binary)), c(NA, NA))
+  expect_equal(has_newline_at_end(c(invalid_filepath, invalid_filepath)), c(NA, NA))
+  expect_equal(has_newline_at_end(c(no_newline, no_newline)), c(FALSE, FALSE))
+  expect_equal(has_newline_at_end(c(newline, newline)), c(TRUE, TRUE))
+})
