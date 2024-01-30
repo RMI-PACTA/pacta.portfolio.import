@@ -9,7 +9,7 @@ file_has_newline_at_end <- function(filepath) {
   if (!is_file_accessible(filepath) || !is_text_file(filepath)) {
     return(NA)
   }
-  if (FALSE) {
+  if (.Platform$OS.type == "unix") {
     newlines_in_final_char <- system(
       command = paste(
         "tail -c1 ", filepath, # tail -c1 returns last 1 byte
