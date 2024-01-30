@@ -186,3 +186,14 @@ test_that("reads a portfolio CSV with numeric names as characters", {
   expect_type(result$investor_name, "character")
   expect_type(result$portfolio_name, "character")
 })
+
+test_that("reads a portfolio CSV with numeric names as characters", {
+  csv_file <- withr::local_tempfile(fileext = ".csv")
+
+  portfolio_alt <- portfolio_min[0L, ]
+
+  readr::write_csv(portfolio_alt, file = csv_file)
+
+  result <- read_portfolio_csv(csv_file)
+  expect_identical(result, NA)
+})
