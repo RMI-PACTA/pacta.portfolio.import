@@ -49,6 +49,31 @@ read_portfolio_csv <- function(filepaths, combine = TRUE) {
 
       encoding <- guess_file_encoding(filepath)
       delimiter <- guess_delimiter(filepath)
+
+      #Check that there is at least 1 data row
+      if (length(readLines(filepath, n = 2L)) < 2L) {
+        # if there is only one line, it may be data row in file with no headers
+        first_line <- readr::read_delim(
+          filepath,
+          delim = delimiter,
+          n_max = 1L,
+          locale = readr::locale(encoding = encoding),
+          col_names = FALSE,
+          show_col_types = FALSE,
+          progress = FALSE
+        )
+        header_types <- vapply(
+          X = readr::spec(first_line)[["cols"]],
+          FUN = function(x) sub("^collector_", "", class(x)[[1L]]),
+          FUN.VALUE = character(1L),
+          USE.NAMES = FALSE
+        )
+        if (all(header_types %in% c("character", "logical"))) {
+          # if all columns are character/logical, then it is likely a header row
+          return(list(NA))
+        }
+      }
+
       decimal_mark <- guess_decimal_mark(filepath)
       grouping_mark <- guess_grouping_mark(filepath)
       if (any(is.na(c(encoding, delimiter, decimal_mark, grouping_mark)))) {
