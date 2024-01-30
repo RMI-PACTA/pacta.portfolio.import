@@ -33,6 +33,13 @@ test_that("has_newline_at_end identifies a binary file", {
   expect_equal(has_newline_at_end(binary), NA)
 })
 
+test_that("has_newline_at_end identifies an empty file", {
+  empty <- withr::local_tempfile()
+  write.table(data.frame(), file = empty, col.names = FALSE)
+  expect_identical(as.integer(file.size(empty)), 0L)
+  expect_identical(has_newline_at_end(empty), NA)
+})
+
 test_that("has_newline_at_end identifies an inaccessible filepath", {
   filepath <- "non-existant-file.txt"
   expect_false(file.exists(filepath))
@@ -53,3 +60,13 @@ test_that("has_newline_at_end behaves as expected when multiple filepaths are pa
   expect_equal(has_newline_at_end(c(no_newline, no_newline)), c(FALSE, FALSE))
   expect_equal(has_newline_at_end(c(newline, newline)), c(TRUE, TRUE))
 })
+
+test_that("file_has_newline_at_end expects a single file", {
+  f1 <- withr::local_tempfile()
+  f2 <- withr::local_tempfile()
+  expect_error(
+    file_has_newline_at_end(c(f1, f2)),
+    "`filepath` must be length 1"
+  )
+})
+
