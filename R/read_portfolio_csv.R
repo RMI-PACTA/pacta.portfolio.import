@@ -64,6 +64,13 @@ read_portfolio_csv <- function(filepaths, combine = TRUE) {
 
       headers <- determine_headers(filepath)
 
+      file_has_header <-
+        has_header(
+          filepath = filepath,
+          encoding = encoding,
+          delimiter = delimiter
+        )
+
       if (length(headers) == 3) {
         col_types <-
           readr::cols(
@@ -87,7 +94,7 @@ read_portfolio_csv <- function(filepaths, combine = TRUE) {
       portfolio_df <-
         readr::read_delim(
           file = filepath,
-          skip = 1L,
+          skip = dplyr::if_else(file_has_header, 1L, 0L),
           col_names = names(headers),
           col_types = col_types,
           locale = locale,
