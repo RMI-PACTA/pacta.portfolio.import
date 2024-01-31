@@ -186,3 +186,17 @@ test_that("reads a portfolio CSV with numeric names as characters", {
   expect_type(result$investor_name, "character")
   expect_type(result$portfolio_name, "character")
 })
+
+test_that("deals with a portfolio CSV with only a header appropriately", {
+  csv_file <- withr::local_tempfile(fileext = ".csv")
+  readr::write_csv(portfolio_min[0, ], file = csv_file)
+  result <- read_portfolio_csv(csv_file)
+  expect_equal(result, NA)
+})
+
+test_that("deals with a portfolio CSV with no header and only one row of data", {
+  csv_file <- withr::local_tempfile(fileext = ".csv")
+  writeLines(paste(portfolio_min, collapse = ","), csv_file)
+  result <- read_portfolio_csv(csv_file)
+  expect_equal(unlist(result), unlist(portfolio_min))
+})

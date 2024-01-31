@@ -27,22 +27,29 @@ determine_headers <- function(filepath) {
     return(NA_character_)
   }
 
-  locale <-
-    readr::locale(
-      encoding = encoding
+  file_has_header <-
+    has_header(
+      filepath = filepath,
+      encoding = encoding,
+      delimiter = delimiter
     )
 
-  first_line <- readr::read_delim(filepath, delim = delimiter, n_max = 1L, locale = locale, col_names = FALSE, show_col_types = FALSE, progress = FALSE)
-  header_types <- vapply(X = readr::spec(first_line)$cols, FUN = function(x) sub("^collector_", "", class(x)[[1]]), FUN.VALUE = character(1), USE.NAMES = FALSE)
+  first_line <-
+    read_first_line(
+      filepath = filepath,
+      encoding = encoding,
+      delimiter = delimiter
+    )
 
-  if (all(header_types %in% c("character", "logical"))) {
-    has_header <- TRUE
-  } else {
-    has_header <- FALSE
-  }
+  header_types <-
+    determine_header_types(
+      filepath = filepath,
+      encoding = encoding,
+      delimiter = delimiter
+    )
 
-  if (!has_header) {
-    num_of_cols <- length(header_types)
+  if (!file_has_header) {
+    num_of_cols <- ncol(first_line)
     if (num_of_cols == 3) {
       col_names <- c("isin", "market_value", "currency")
       names(col_names) <- col_names
@@ -92,7 +99,7 @@ determine_headers <- function(filepath) {
   if (not_portfolio_csv) {
     return(NA_character_)
   }
-  if (!has_header) {
+  if (!file_has_header) {
     return(col_names)
   }
 

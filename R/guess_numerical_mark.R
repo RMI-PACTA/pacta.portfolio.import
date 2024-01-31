@@ -31,17 +31,25 @@ guess_numerical_mark <- function(filepaths, type = "decimal") {
       encoding <- guess_file_encoding(filepath)
       delimiter <- guess_delimiter(filepath)
 
-      cust_locale <-
-        readr::locale(
-          encoding = encoding
+      # return NA if file only has a header row and no data
+      file_has_header <-
+        has_header(
+          filepath = filepath,
+          encoding = encoding,
+          delimiter = delimiter
         )
+
+      only_one_line <- length(readLines(con = filepath, n = 2L)) < 2
+
+      if (file_has_header && only_one_line) {
+        return(NA_character_)
+      }
 
       # determine appropriate column
       headers <- determine_headers(filepath)
 
       if ("market_value" %in% names(headers)) {
         num_col_idx <- match("market_value", names(headers))
-        has_header_row <- TRUE
       } else {
         warning("`market_value` column could not be determined")
         return(NA_character_)
@@ -52,12 +60,12 @@ guess_numerical_mark <- function(filepaths, type = "decimal") {
         readr::read_delim(
           file = filepath,
           delim = delimiter,
-          locale = cust_locale,
+          locale = readr::locale(encoding = encoding),
           trim_ws = TRUE,
           col_types = readr::cols(.default = "c"),
           col_names = FALSE,
           col_select = dplyr::all_of(num_col_idx),
-          skip = dplyr::if_else(has_header_row, 1L, 0L),
+          skip = dplyr::if_else(file_has_header, 1L, 0L),
           progress = FALSE,
           show_col_types = FALSE
         )
