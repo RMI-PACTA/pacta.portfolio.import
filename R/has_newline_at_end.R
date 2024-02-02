@@ -9,36 +9,21 @@ file_has_newline_at_end <- function(filepath) {
   if (!is_file_accessible(filepath) || !is_text_file(filepath)) {
     return(NA)
   }
-  if (.Platform$OS.type == "unix") {
-    newlines_in_final_char <- system(
-      command = paste(
-        "tail -c1 ", filepath, # tail -c1 returns last 1 byte
-        " | ", # pipe to next command
-        "wc -l" # wc -l returns number of newline characters in input
-      ),
-      intern = TRUE
-    )
-    has_trailing_newline <- as.logical(as.integer(newlines_in_final_char))
-  } else {
-    # Windows does not have a POSIX compliant `tail` command
-    # so we use builtin R functionality, which is slower
-    con <- file(filepath, "rb")
-    on.exit(close(con))
 
-    not_at_end <- TRUE
-    chars <- ""
-    while (not_at_end) {
-      prev_chars <- chars
-      chars <- readChar(con, nchars = 2048L, useBytes = TRUE)
-      if (length(chars) == 0L) {
-        not_at_end <- FALSE
-      }
+  con <- file(filepath, "rb")
+  on.exit(close(con))
+
+  not_at_end <- TRUE
+  chars <- ""
+  while (not_at_end) {
+    prev_chars <- chars
+    chars <- readChar(con, nchars = 2048L, useBytes = TRUE)
+    if (length(chars) == 0L) {
+      not_at_end <- FALSE
     }
 
     has_trailing_newline <- grepl(
-      # using [\n] instead of [\n\r] because modern systems use either \n or
-      # \r\n as newline, both of which match \n as last character.
-      "[\n]$", iconv(prev_chars, to = "UTF-8", sub = "")
+      "[\n\r]$", iconv(prev_chars, to = "UTF-8", sub = "")
     )
 
   }
