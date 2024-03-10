@@ -200,3 +200,56 @@ test_that("deals with a portfolio CSV with no header and only one row of data", 
   result <- read_portfolio_csv(csv_file)
   expect_equal(unlist(result), unlist(portfolio_min))
 })
+
+test_that("reads and combines multiple, proper portfolio CSVs correctly", {
+  csv_file <- withr::local_tempfile(fileext = ".csv")
+  readr::write_csv(portfolio_min, file = csv_file)
+
+  result <- read_portfolio_csv(c(csv_file, csv_file))
+  expect_true(names(result)[[1L]] == "filepath")
+  expect_true(nrow(result) == 2L)
+  expect_equal(result[ , -1L], rbind(portfolio_min, portfolio_min), ignore_attr = TRUE)
+})
+
+test_that("reads and combines multiple portfolio CSVs correctly when one is not proper", {
+  csv_file <- withr::local_tempfile(fileext = ".csv")
+  csv_file2 <- withr::local_tempfile(fileext = ".csv")
+  readr::write_csv(portfolio_min, file = csv_file)
+  readr::write_csv(portfolio_min[0, ], file = csv_file2)
+
+  result <- read_portfolio_csv(c(csv_file, csv_file2))
+  expect_true(names(result)[[1L]] == "filepath")
+  expect_true(nrow(result) == 1L)
+  expect_equal(result[ , -1L], portfolio_min, ignore_attr = TRUE)
+})
+
+test_that("reads and combines multiple, proper portfolio CSVs correctly into a list", {
+  csv_file <- withr::local_tempfile(fileext = ".csv")
+  csv_file <- gsub("//", "/", csv_file)
+  readr::write_csv(portfolio_min, file = csv_file)
+
+  result <- read_portfolio_csv(c(csv_file, csv_file), combine = FALSE)
+  expect_type(result, "list")
+  expect_equal(length(result), 2L)
+  expect_named(result)
+  expect_equal(names(result), c(csv_file, csv_file))
+  expect_equal(result[[1L]], portfolio_min, ignore_attr = TRUE)
+  expect_equal(result[[2L]], portfolio_min, ignore_attr = TRUE)
+})
+
+test_that("reads and combines multiple portfolio CSVs correctly into a list when one is not proper", {
+  csv_file <- withr::local_tempfile(fileext = ".csv")
+  csv_file2 <- withr::local_tempfile(fileext = ".csv")
+  csv_file <- gsub("//", "/", csv_file)
+  csv_file2 <- gsub("//", "/", csv_file2)
+  readr::write_csv(portfolio_min, file = csv_file)
+  readr::write_csv(portfolio_min[0, ], file = csv_file2)
+
+  result <- read_portfolio_csv(c(csv_file, csv_file2), combine = FALSE)
+  expect_type(result, "list")
+  expect_equal(length(result), 2L)
+  expect_named(result)
+  expect_equal(names(result), c(csv_file, csv_file2))
+  expect_equal(result[[1L]], portfolio_min, ignore_attr = TRUE)
+  expect_equal(result[[2L]], NA)
+})
