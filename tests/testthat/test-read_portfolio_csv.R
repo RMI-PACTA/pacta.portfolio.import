@@ -207,6 +207,7 @@ test_that("reads and combines multiple, proper portfolio CSVs correctly", {
 
   result <- read_portfolio_csv(c(csv_file, csv_file))
   expect_true(names(result)[[1L]] == "filepath")
+  expect_equal(basename(result[[1L]]), basename(c(csv_file, csv_file)))
   expect_true(nrow(result) == 2L)
   expect_equal(result[ , -1L], rbind(portfolio_min, portfolio_min), ignore_attr = TRUE)
 })
@@ -219,6 +220,7 @@ test_that("reads and combines multiple portfolio CSVs correctly when one is not 
 
   result <- read_portfolio_csv(c(csv_file, csv_file2))
   expect_true(names(result)[[1L]] == "filepath")
+  expect_equal(basename(result[[1L]]), basename(csv_file))
   expect_true(nrow(result) == 1L)
   expect_equal(result[ , -1L], portfolio_min, ignore_attr = TRUE)
 })
@@ -232,7 +234,7 @@ test_that("reads and combines multiple, proper portfolio CSVs correctly into a l
   expect_type(result, "list")
   expect_equal(length(result), 2L)
   expect_named(result)
-  expect_equal(names(result), c(csv_file, csv_file))
+  expect_equal(basename(names(result)), basename(c(csv_file, csv_file)))
   expect_equal(result[[1L]], portfolio_min, ignore_attr = TRUE)
   expect_equal(result[[2L]], portfolio_min, ignore_attr = TRUE)
 })
@@ -249,7 +251,7 @@ test_that("reads and combines multiple portfolio CSVs correctly into a list when
   expect_type(result, "list")
   expect_equal(length(result), 2L)
   expect_named(result)
-  expect_equal(names(result), c(csv_file, csv_file2))
+  expect_equal(basename(names(result)), basename(c(csv_file, csv_file2)))
   expect_equal(result[[1L]], portfolio_min, ignore_attr = TRUE)
   expect_equal(result[[2L]], NA)
 })
