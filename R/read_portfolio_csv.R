@@ -102,6 +102,7 @@ read_portfolio_csv <- function(filepaths, combine = TRUE) {
           show_col_types = FALSE,
           progress = FALSE
         )
+      problems_attr <- attr(portfolio_df, "problems")
 
       portfolio_df <-
         dplyr::select(
@@ -130,6 +131,7 @@ read_portfolio_csv <- function(filepaths, combine = TRUE) {
           grouping_mark = grouping_mark
         )
       attr(portfolio_df, which = "read_portfolio_csv") <- guessed_attrs
+      attr(portfolio_df, which = "problems") <- problems_attr
 
       list(portfolio_df)
     },
