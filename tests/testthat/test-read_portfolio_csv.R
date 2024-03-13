@@ -255,3 +255,16 @@ test_that("reads and combines multiple portfolio CSVs correctly into a list when
   expect_equal(result[[1L]], portfolio_min, ignore_attr = TRUE)
   expect_equal(result[[2L]], NA)
 })
+
+test_that("passes readr problems attribute through correctly", {
+  csv_file <- withr::local_tempfile(fileext = ".csv")
+
+  portfolio_alt <- portfolio_min
+  portfolio_alt$market_value <- "X"
+
+  readr::write_csv(portfolio_alt, file = csv_file)
+
+  expect_warning({ result <- read_portfolio_csv(csv_file) })
+  expect_true(!is.null(attr(result, "problems")))
+  expect_gt(nrow(readr::problems(result)), 0L)
+})
