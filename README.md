@@ -1,9 +1,9 @@
 # pacta.portfolio.import <a href="https://rmi-pacta.github.io/pacta.portfolio.import"><img src="man/figures/logo.png" align="right" height="31" /></a>
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![CRAN status](https://www.r-pkg.org/badges/version/pacta.portfolio.import)](https://CRAN.R-project.org/package=pacta.portfolio.import)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check](https://github.com/RMI-PACTA/pacta.portfolio.import/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/RMI-PACTA/pacta.portfolio.import/actions/workflows/R-CMD-check.yaml)
+[![CRAN status](https://www.r-pkg.org/badges/version/pacta.portfolio.import)](https://CRAN.R-project.org/package=pacta.portfolio.import)
 [![pacta.portfolio.import status badge](https://rmi-pacta.r-universe.dev/badges/pacta.portfolio.import)](https://rmi-pacta.r-universe.dev/ui#package:pacta.portfolio.import)
 <!-- badges: end -->
 
