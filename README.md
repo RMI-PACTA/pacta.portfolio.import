@@ -3,7 +3,7 @@
 <!-- badges: start -->
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check](https://github.com/RMI-PACTA/pacta.portfolio.import/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/RMI-PACTA/pacta.portfolio.import/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://codecov.io/gh/RMI-PACTA/pacta.portfolio.import/graph/badge.svg)](https://codecov.io/gh/RMI-PACTA/pacta.portfolio.import)
+[![codecov](https://img.shields.io/codecov/c/github/rmi-pacta/pacta.portfolio.import)](https://codecov.io/gh/RMI-PACTA/pacta.portfolio.import)
 [![CRAN status](https://www.r-pkg.org/badges/version/pacta.portfolio.import)](https://CRAN.R-project.org/package=pacta.portfolio.import)
 [![pacta.portfolio.import status badge](https://rmi-pacta.r-universe.dev/badges/pacta.portfolio.import)](https://rmi-pacta.r-universe.dev/ui#package:pacta.portfolio.import)
 <!-- badges: end -->
