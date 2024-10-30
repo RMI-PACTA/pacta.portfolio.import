@@ -5,7 +5,7 @@
 [![R-CMD-check](https://github.com/RMI-PACTA/pacta.portfolio.import/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/RMI-PACTA/pacta.portfolio.import/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://img.shields.io/codecov/c/github/rmi-pacta/pacta.portfolio.import)](https://codecov.io/gh/RMI-PACTA/pacta.portfolio.import)
 [![CRAN status](https://www.r-pkg.org/badges/version/pacta.portfolio.import)](https://CRAN.R-project.org/package=pacta.portfolio.import)
-[![pacta.portfolio.import status badge](https://rmi-pacta.r-universe.dev/badges/pacta.portfolio.import)](https://rmi-pacta.r-universe.dev/ui#package:pacta.portfolio.import)
+[![pacta.portfolio.import status badge](https://rmi-pacta.r-universe.dev/badges/pacta.portfolio.import)](https://rmi-pacta.r-universe.dev/pacta.portfolio.import)
 <!-- badges: end -->
 
 The `pacta.portfolio.import` R package provides a number of functions to facilitate the importing of a portfolio CSV intended to be used by the [`pacta.portfolio.audit`](https://github.com/RMI-PACTA/pacta.portfolio.audit) and [`pacta.portfolio.allocate`](https://github.com/RMI-PACTA/pacta.portfolio.allocate) R packages. Its primary exported function is `read_portfolio_csv()` which can read in one or more portfolio CSVs. Its other utility functions allow `read_portfolio_csv()` to work around a variety of formatting and encoding issues that have been seen in the wild, such as: automatically determining strange file encodings, strange number formats and numerical marks, and adapting to non-standard delimiters.
