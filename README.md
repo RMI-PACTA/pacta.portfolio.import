@@ -1,5 +1,9 @@
 # pacta.portfolio.import <a href="https://rmi-pacta.github.io/pacta.portfolio.import"><img src="man/figures/logo.png" align="right" height="31" /></a>
 
+[![Project Status: Unsupported](https://www.repostatus.org/badges/latest/unsupported.svg)](https://www.repostatus.org/#unsupported)
+
+**This project is archived for future reference, but no new work is expected in this repository.**
+
 <!-- badges: start -->
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check](https://github.com/RMI-PACTA/pacta.portfolio.import/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/RMI-PACTA/pacta.portfolio.import/actions/workflows/R-CMD-check.yaml)
@@ -43,4 +47,3 @@ read_portfolio_csv(c("portfolio_1.csv", "portfolio_2.csv"))
 # read in all portfolio CSVs in a directory
 read_portfolio_csv("portfolios/")
 ```
-
